@@ -1,0 +1,54 @@
+{
+    "name": "naoray/blueprint-nova-addon",
+    "description": "",
+    "keywords": [
+        "naoray",
+        "blueprint-nova-addon"
+    ],
+    "homepage": "https://github.com/naoray/blueprint-nova-addon",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Krishan König",
+            "email": "krishan.koenig@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Naoray\\BlueprintNovaAddon\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Naoray\\BlueprintNovaAddon\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Naoray\\BlueprintNovaAddon\\BlueprintNovaAddonServiceProvider"
+            ],
+            "aliases": {
+                "BlueprintNovaAddon": "Naoray\\BlueprintNovaAddon\\BlueprintNovaAddonFacade"
+            }
+        }
+    }
+}
