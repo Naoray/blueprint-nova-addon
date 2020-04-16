@@ -1,5 +1,0 @@
-models:
-  State:
-    name: string
-    code: string
-    timestamps: false

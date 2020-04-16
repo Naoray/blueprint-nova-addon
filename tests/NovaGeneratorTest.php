@@ -56,7 +56,6 @@ class NovaGeneratorTest extends TestCase
         $this->files->expects('exists')
             ->with(dirname($path))
             ->andReturnTrue();
-
         $this->files->expects('put')
             ->with($path, $this->fixture($novaResource));
 
@@ -72,28 +71,19 @@ class NovaGeneratorTest extends TestCase
     public function output_generates_relationships()
     {
         $this->files->expects('stub')
-            ->with('model/class.stub')
-            ->andReturn(file_get_contents('stubs/model/class.stub'));
-        $this->files->expects('stub')
-            ->with('model/fillable.stub')
-            ->andReturn(file_get_contents('stubs/model/fillable.stub'));
-        $this->files->expects('stub')
-            ->with('model/casts.stub')
-            ->andReturn(file_get_contents('stubs/model/casts.stub'));
-        $this->files->expects('stub')
-            ->with('model/method.stub')
-            ->andReturn(file_get_contents('stubs/model/method.stub'));
+            ->withArgs(['class.stub', $this->stubPath()])
+            ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->expects('exists')
-            ->with('app')
+            ->with('app/Nova')
             ->andReturnTrue();
         $this->files->expects('put')
-            ->with('app/Subscription.php', $this->fixture('models/model-relationships.php'));
+            ->with('app/Nova/Subscription.php', $this->fixture('nova/model-relationships.php'));
 
         $tokens = $this->blueprint->parse($this->fixture('definitions/model-relationships.bp'));
         $tree = $this->blueprint->analyze($tokens);
 
-        $this->assertEquals(['created' => ['app/Subscription.php']], $this->subject->output($tree));
+        $this->assertEquals(['created' => ['app/Nova/Subscription.php']], $this->subject->output($tree));
     }
 
     /**
@@ -106,75 +96,21 @@ class NovaGeneratorTest extends TestCase
         $this->app['config']->set('blueprint.models_namespace', 'Models');
 
         $this->files->expects('stub')
-            ->with('model/class.stub')
-            ->andReturn(file_get_contents('stubs/model/class.stub'));
-
-        $this->files->expects('stub')
-            ->with('model/fillable.stub')
-            ->andReturn(file_get_contents('stubs/model/fillable.stub'));
-
-        $this->files->expects('stub')
-            ->with('model/casts.stub')
-            ->andReturn(file_get_contents('stubs/model/casts.stub'));
-
-        $this->files->expects('stub')
-            ->with('model/method.stub')
-            ->andReturn(file_get_contents('stubs/model/method.stub'));
+            ->withArgs(['class.stub', $this->stubPath()])
+            ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->expects('exists')
-            ->with('src/path/Models')
+            ->with('src/path/Nova')
             ->andReturnFalse();
         $this->files->expects('makeDirectory')
-            ->with('src/path/Models', 0755, true);
+            ->with('src/path/Nova', 0755, true);
         $this->files->expects('put')
-            ->with('src/path/Models/Comment.php', $this->fixture('models/model-configured.php'));
+            ->with('src/path/Nova/Comment.php', $this->fixture('nova/model-configured.php'));
 
         $tokens = $this->blueprint->parse($this->fixture('definitions/relationships.bp'));
         $tree = $this->blueprint->analyze($tokens);
 
-        $this->assertEquals(['created' => ['src/path/Models/Comment.php']], $this->subject->output($tree));
-    }
-
-    /**
-     * @test
-     * @dataProvider docBlockModelsDataProvider
-     */
-    public function output_generates_phpdoc_for_model($definition, $path, $model)
-    {
-        $this->app['config']->set('blueprint.generate_phpdocs', true);
-
-        $this->files->expects('stub')
-            ->with('model/class.stub')
-            ->andReturn(file_get_contents('stubs/model/class.stub'));
-
-        $this->files->expects('stub')
-            ->with('model/fillable.stub')
-            ->andReturn(file_get_contents('stubs/model/fillable.stub'));
-
-        $this->files->expects('stub')
-            ->with('model/casts.stub')
-            ->andReturn(file_get_contents('stubs/model/casts.stub'));
-
-        if ($definition === 'definitions/readme-example.bp') {
-            $this->files->expects('stub')
-                ->with('model/dates.stub')
-                ->andReturn(file_get_contents('stubs/model/dates.stub'));
-        }
-
-        $this->files->shouldReceive('stub')
-            ->with('model/method.stub')
-            ->andReturn(file_get_contents('stubs/model/method.stub'));
-
-        $this->files->expects('exists')
-            ->with(dirname($path))
-            ->andReturnTrue();
-        $this->files->expects('put')
-            ->with($path, $this->fixture($model));
-
-        $tokens = $this->blueprint->parse($this->fixture($definition));
-        $tree = $this->blueprint->analyze($tokens);
-
-        $this->assertEquals(['created' => [$path]], $this->subject->output($tree));
+        $this->assertEquals(['created' => ['src/path/Nova/Comment.php']], $this->subject->output($tree));
     }
 
     public function novaTreeDataProvider()
@@ -188,15 +124,6 @@ class NovaGeneratorTest extends TestCase
              * @todo work on this
              */
             // ['definitions/nested-components.bp', 'app/Nova/Admin/User.php', 'nova/nested-components.php'],
-        ];
-    }
-
-    public function docBlockModelsDataProvider()
-    {
-        return [
-            ['definitions/readme-example.bp', 'app/Post.php', 'models/readme-example-phpdoc.php'],
-            ['definitions/soft-deletes.bp', 'app/Comment.php', 'models/soft-deletes-phpdoc.php'],
-            ['definitions/disable-auto-columns.bp', 'app/State.php', 'models/disable-auto-columns-phpdoc.php'],
         ];
     }
 }

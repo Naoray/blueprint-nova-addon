@@ -13,11 +13,13 @@ class AddRelationshipFields
     public function handle(array $data, Closure $next)
     {
         /** @var Model */
-        $model = $data['model'];
+        $relationships = $data['model']->relationships();
         $fields = $data['fields'];
         $imports = $data['imports'];
 
-        foreach ($model->relationships() as $type => $references) {
+        ksort($relationships);
+
+        foreach ($relationships as $type => $references) {
             foreach ($references as $reference) {
                 if (Str::contains($reference, ':')) {
                     [$class, $name] = explode(':', $reference);
@@ -37,7 +39,7 @@ class AddRelationshipFields
 
                 $fields .= self::INDENT . $fieldType . "::make('" . $label . "'";
 
-                if ($label !== $class) {
+                if ($label !== $class && $label !== Str::plural($class)) {
                     $fields .= ", '" . $methodName . "', " . $class . '::class';
                 }
 
