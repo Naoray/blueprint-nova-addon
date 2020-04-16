@@ -1,0 +1,18 @@
+models:
+  Proper:
+    id: true
+    softDeletes: true
+    timestamps: true
+
+  Lower:
+    id: id
+    softdeletes: true
+    timestampstz: true
+
+  Timezone:
+    softdeletestz: true
+    timestampsTz: true
+
+controllers:
+  Context:
+    resource: true

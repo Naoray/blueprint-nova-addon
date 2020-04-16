@@ -1,0 +1,13 @@
+models:
+  Post:
+    title: string
+
+controllers:
+  Api/Post:
+    index:
+      query: all
+      respond: posts
+    store:
+      respond: 204
+    error:
+      respond: 400

@@ -16,12 +16,15 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "illuminate/support": "^6.0"
+        "illuminate/pipeline": "^7.0",
+        "illuminate/support": "^7.0",
+        "laravel-shift/blueprint": "^1.5",
+        "laravel/nova": "^3.4"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0",
-        "phpunit/phpunit": "^8.0"
+        "orchestra/testbench": "^5.0",
+        "mockery/mockery": "^1.3",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,9 +37,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-
+        "test": "vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true
@@ -45,10 +46,13 @@
         "laravel": {
             "providers": [
                 "Naoray\\BlueprintNovaAddon\\BlueprintNovaAddonServiceProvider"
-            ],
-            "aliases": {
-                "BlueprintNovaAddon": "Naoray\\BlueprintNovaAddon\\BlueprintNovaAddonFacade"
-            }
+            ]
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ]
 }
