@@ -1,25 +1,43 @@
-# Very short description of the package
+# Blueprint Nova Addon
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/naoray/blueprint-nova-addon.svg?style=flat-square)](https://packagist.org/packages/naoray/blueprint-nova-addon)
 [![Build Status](https://img.shields.io/travis/naoray/blueprint-nova-addon/master.svg?style=flat-square)](https://travis-ci.org/naoray/blueprint-nova-addon)
-[![Quality Score](https://img.shields.io/scrutinizer/g/naoray/blueprint-nova-addon.svg?style=flat-square)](https://scrutinizer-ci.com/g/naoray/blueprint-nova-addon)
 [![Total Downloads](https://img.shields.io/packagist/dt/naoray/blueprint-nova-addon.svg?style=flat-square)](https://packagist.org/packages/naoray/blueprint-nova-addon)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+:mega: Shoutout to [Jason McCreary](https://github.com/jasonmccreary) whose [Blueprint](https://github.com/laravel-shift/blueprint) package lays the groundwork for this small addon. Thank you Jason :raised_hands:
+
+Installing this addon will allow you to generate your Nova resources with the `php artisan blueprint:build` command.
 
 ## Installation
-
 You can install the package via composer:
 
 ```bash
-composer require naoray/blueprint-nova-addon
+composer require naoray/blueprint-nova-addon --dev
 ```
+
+> :warning: You need to have [laravel nova](nova.laravel.com/) installed in order for the resource generation to take place!
 
 ## Usage
+Refer to [Blueprint's Basic Usage](https://github.com/laravel-shift/blueprint#basic-usage) to get started. Afterwards you can run the `blueprint:build` command to generate Nova resources automatically. To get an idea of how easy it is you can use the example `draft.yaml` file below.
 
-``` php
-// Usage description here
+```yaml
+# draft.yaml
+models:
+  Post:
+    author_id: id:user
+    title: string:400
+    content: longtext
+    published_at: nullable timestamp
+    relationships:
+      HasMany: Comment
+
+  Comment:
+    post_id:i 
+    content: longtext
+    published_at: nullable timestamp
 ```
+
+From these simple 20 lines of YAML, Blueprint will generate all of the following Laravel components:
 
 ### Testing
 

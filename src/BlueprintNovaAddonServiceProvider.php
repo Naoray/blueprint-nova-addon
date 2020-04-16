@@ -2,6 +2,7 @@
 
 namespace Naoray\BlueprintNovaAddon;
 
+use Blueprint\Blueprint;
 use Illuminate\Support\ServiceProvider;
 
 class BlueprintNovaAddonServiceProvider extends ServiceProvider
@@ -11,10 +12,10 @@ class BlueprintNovaAddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->extends(Blueprint::class, function ($app) {
-        //     $blueprint->registerGenerator(new \Blueprint\Generators\TestGenerator($app['files']));
+        $this->app->extend(Blueprint::class, function ($blueprint, $app) {
+            $blueprint->registerGenerator(new NovaGenerator($app['files']));
 
-        //     return $blueprint;
-        // });
+            return $blueprint;
+        });
     }
 }
