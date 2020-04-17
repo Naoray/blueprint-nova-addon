@@ -13,20 +13,26 @@ class AddRegularFields
     const INDENT = '            ';
     const INDENT_PLUS = '                ';
 
+    /** @var Model */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
     public function handle($data, Closure $next): array
     {
-        /** @var Model */
-        $model = $data['model'];
         $fields = $data['fields'];
         $imports = $data['imports'];
 
-        $columns = $this->regularColumns($model->columns());
+        $columns = $this->regularColumns($this->model->columns());
         foreach ($columns as $column) {
             $fieldType = $this->fieldType($column->dataType());
             $imports[] = $fieldType;
 
             $field = $fieldType . "::make('" . $this->fieldLabel($column->name()) . "')";
-            $field .= $this->addRules($column, $model);
+            $field .= $this->addRules($column);
 
             if ($column->dataType() === 'json') {
                 $field .= PHP_EOL . self::INDENT_PLUS . '->json()';
@@ -55,12 +61,12 @@ class AddRegularFields
         return str_replace('_', ' ', ucfirst($name));
     }
 
-    private function addRules(Column $column, Model $model): string
+    private function addRules(Column $column): string
     {
         $fieldRules = '';
 
         if (!in_array($column->dataType(), ['id'])) {
-            $rules = Rules::fromColumn($model->tableName(), $column);
+            $rules = Rules::fromColumn($this->model->tableName(), $column);
 
             if ($column->dataType() === 'json') {
                 array_push($rules, 'json');

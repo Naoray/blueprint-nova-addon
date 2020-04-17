@@ -32,7 +32,7 @@ class NovaGenerator implements Generator
     {
         $output = [];
 
-        $stub = $this->files->stub('class.stub', $this->stubPath());
+        $stub = $this->files->get($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub');
 
         /** @var \Blueprint\Models\Model $model */
         foreach ($tree['models'] as $model) {
@@ -60,7 +60,6 @@ class NovaGenerator implements Generator
     protected function populateStub(string $stub, Model $model): string
     {
         $data = [
-            'model' => $model,
             'fields' => '',
             'imports' => [],
         ];
@@ -68,11 +67,11 @@ class NovaGenerator implements Generator
         $data = resolve(Pipeline::class)
             ->send($data)
             ->through([
-                AddIdentifierField::class,
-                AddRegularFields::class,
-                AddRelationshipFields::class,
-                AddTimestampFields::class,
-                RemapImports::class,
+                new AddIdentifierField($model),
+                new AddRegularFields($model),
+                new AddRelationshipFields($model),
+                new AddTimestampFields($model),
+                new RemapImports(),
             ])
             ->thenReturn();
 

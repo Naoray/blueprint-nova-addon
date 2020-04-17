@@ -11,14 +11,19 @@ class AddIdentifierField
 {
     const INDENT = '            ';
 
+    /** @var Model */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
     public function handle($data, Closure $next): array
     {
-        /** @var Model */
-        $model = $data['model'];
-
         $column = $this->getIdentifierColumn(
-            $model->columns(),
-            $model->relationships()
+            $this->model->columns(),
+            $this->model->relationships()
         );
 
         $identifierName = $column->name() === 'id' ? '' : "'" . $column->name() . "'";

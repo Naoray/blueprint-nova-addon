@@ -10,12 +10,19 @@ class AddRelationshipFields
 {
     const INDENT = '            ';
 
+    /** @var Model */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
     public function handle(array $data, Closure $next)
     {
-        /** @var Model */
-        $relationships = $data['model']->relationships();
         $fields = $data['fields'];
         $imports = $data['imports'];
+        $relationships = $this->model->relationships();
 
         ksort($relationships);
 

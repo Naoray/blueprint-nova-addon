@@ -9,20 +9,26 @@ class AddTimestampFields
 {
     const INDENT = '            ';
 
+    /** @var Model */
+    private $model;
+
+    public function __construct(Model $model)
+    {
+        $this->model = $model;
+    }
+
     public function handle($data, Closure $next): array
     {
-        /** @var Model */
-        $model = $data['model'];
         $fields = $data['fields'];
         $imports = $data['imports'];
 
-        if ($model->usesTimestamps()) {
+        if ($this->model->usesTimestamps()) {
             $imports[] = 'DateTime';
 
             $fields .= self::INDENT . "DateTime::make('Created at')," . PHP_EOL . self::INDENT . "DateTime::make('Updated at'),";
         }
 
-        if ($model->usesSoftDeletes()) {
+        if ($this->model->usesSoftDeletes()) {
             $imports[] = 'DateTime';
             $fields .= PHP_EOL . self::INDENT . "DateTime::make('Deleted at'),";
         }
