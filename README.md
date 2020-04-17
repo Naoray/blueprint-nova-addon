@@ -8,10 +8,10 @@
 Installing this addon will allow you to generate your Nova resources with the `php artisan blueprint:build` command.
 
 ## Installation
-You can install the package via composer:
+You can install this package and **Blueprint** via composer:
 
 ```bash
-composer require naoray/blueprint-nova-addon --dev
+composer require --dev laravel-shift/blueprint naoray/blueprint-nova-addon
 ```
 
 > :warning: You need to have [laravel nova](nova.laravel.com/) installed in order for the resource generation to take place!
