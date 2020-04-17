@@ -1,6 +1,6 @@
 # Blueprint Nova Addon
 
-[![Build Status](https://travis-ci.org/Naoray/blueprint-nova-addon.svg?branch=master)
+![Build Status](https://travis-ci.org/Naoray/blueprint-nova-addon.svg?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/naoray/blueprint-nova-addon.svg?style=flat-square)](https://packagist.org/packages/naoray/blueprint-nova-addon)
 
 :mega: Shoutout to [Jason McCreary](https://github.com/jasonmccreary) whose [Blueprint](https://github.com/laravel-shift/blueprint) package lays the groundwork for this small addon. Thank you Jason :raised_hands:
