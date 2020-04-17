@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
 use Blueprint\Models\Model;
+use Closure;
 
 class AddTimestampFields
 {

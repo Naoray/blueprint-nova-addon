@@ -2,10 +2,10 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
-use Blueprint\Models\Model;
 use Blueprint\Models\Column;
+use Blueprint\Models\Model;
 use Blueprint\Translators\Rules;
+use Closure;
 use Illuminate\Support\Collection;
 
 class AddRegularFields

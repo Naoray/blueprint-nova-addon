@@ -2,10 +2,10 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
-use Blueprint\Models\Model;
-use Illuminate\Support\Arr;
 use Blueprint\Models\Column;
+use Blueprint\Models\Model;
+use Closure;
+use Illuminate\Support\Arr;
 
 class AddIdentifierField
 {
