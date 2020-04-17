@@ -37,7 +37,50 @@ models:
     published_at: nullable timestamp
 ```
 
-From these simple 20 lines of YAML, Blueprint will generate all of the following Laravel components:
+From these 13 lines of YAML, this addon will generate 2 Nova resources which are pre-filled with 14 fields.
+
+```php
+// App/Nova/Comment.php
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+
+        Textarea::make('Content')
+            ->rules('required', 'string'),
+
+        DateTime::make('Published at'),
+
+        BelongsTo::make('Post'),
+
+        DateTime::make('Created at'),
+        DateTime::make('Updated at'),
+    ];
+}
+
+// App/Nova/Post.php
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+
+        Text::make('Title')
+            ->rules('required', 'string', 'max:400'),
+
+        Textarea::make('Content')
+            ->rules('required', 'string'),
+
+        DateTime::make('Published at'),
+
+        BelongsTo::make('Author', 'author', User::class),
+
+        HasMany::make('Comments'),
+
+        DateTime::make('Created at'),
+        DateTime::make('Updated at'),
+    ];
+}
+```
 
 ### Testing
 
