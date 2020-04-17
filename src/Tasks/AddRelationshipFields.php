@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Blueprint\Models\Model;
 use Closure;
+use Blueprint\Models\Model;
 use Illuminate\Support\Str;
 
 class AddRelationshipFields

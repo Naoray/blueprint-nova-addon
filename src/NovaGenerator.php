@@ -3,15 +3,15 @@
 namespace Naoray\BlueprintNovaAddon;
 
 use Blueprint\Blueprint;
-use Blueprint\Contracts\Generator;
 use Blueprint\Models\Model;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
-use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
-use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
-use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
-use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
+use Illuminate\Pipeline\Pipeline;
+use Blueprint\Contracts\Generator;
 use Naoray\BlueprintNovaAddon\Tasks\RemapImports;
+use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
+use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
 
 class NovaGenerator implements Generator
 {
