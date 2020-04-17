@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tests;
 
-use Orchestra\Testbench\TestCase as Orchestra;
 use Naoray\BlueprintNovaAddon\BlueprintNovaAddonServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
