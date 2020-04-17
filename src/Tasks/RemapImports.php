@@ -11,7 +11,7 @@ class RemapImports
         $data['imports'] = collect($data['imports'])
             ->unique()
             ->map(function ($type) {
-                return 'use Laravel\Nova\Fields\\' . $type . ';';
+                return 'use Laravel\Nova\Fields\\'.$type.';';
             })
             ->prepend('use Illuminate\Http\Request;')
             ->sort(function ($a, $b) {

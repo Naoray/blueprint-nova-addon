@@ -2,10 +2,10 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
-use Blueprint\Models\Model;
-use Illuminate\Support\Arr;
 use Blueprint\Models\Column;
+use Blueprint\Models\Model;
+use Closure;
+use Illuminate\Support\Arr;
 
 class AddIdentifierField
 {
@@ -26,8 +26,8 @@ class AddIdentifierField
             $this->model->relationships()
         );
 
-        $identifierName = $column->name() === 'id' ? '' : "'" . $column->name() . "'";
-        $data['fields'] .= 'ID::make(' . $identifierName . ')->sortable(),' . PHP_EOL . PHP_EOL;
+        $identifierName = $column->name() === 'id' ? '' : "'".$column->name()."'";
+        $data['fields'] .= 'ID::make('.$identifierName.')->sortable(),'.PHP_EOL.PHP_EOL;
         $data['imports'][] = 'ID';
 
         return $next($data);
@@ -42,7 +42,7 @@ class AddIdentifierField
             ->map(function (Column $column) {
                 return empty($column->attributes())
                     ? $column->name()
-                    : implode(':', $column->attributes()) . ":{$column->name()}";
+                    : implode(':', $column->attributes()).":{$column->name()}";
             })->values()
             ->diff(Arr::get($relations, 'belongsTo', []))
             ->first();

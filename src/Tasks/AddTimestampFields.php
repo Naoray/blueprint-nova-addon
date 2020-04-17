@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
 use Blueprint\Models\Model;
+use Closure;
 
 class AddTimestampFields
 {
@@ -25,12 +25,12 @@ class AddTimestampFields
         if ($this->model->usesTimestamps()) {
             $imports[] = 'DateTime';
 
-            $fields .= self::INDENT . "DateTime::make('Created at')," . PHP_EOL . self::INDENT . "DateTime::make('Updated at'),";
+            $fields .= self::INDENT."DateTime::make('Created at'),".PHP_EOL.self::INDENT."DateTime::make('Updated at'),";
         }
 
         if ($this->model->usesSoftDeletes()) {
             $imports[] = 'DateTime';
-            $fields .= PHP_EOL . self::INDENT . "DateTime::make('Deleted at'),";
+            $fields .= PHP_EOL.self::INDENT."DateTime::make('Deleted at'),";
         }
 
         $data['fields'] = $fields;
