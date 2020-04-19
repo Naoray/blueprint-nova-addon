@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
 use Blueprint\Models\Model;
+use Closure;
 use Illuminate\Support\Str;
 
 class AddRelationshipFields
@@ -44,13 +44,13 @@ class AddRelationshipFields
                 $fieldType = $this->fieldType($type);
                 $imports[] = $fieldType;
 
-                $fields .= self::INDENT . $fieldType . "::make('" . $label . "'";
+                $fields .= self::INDENT.$fieldType."::make('".$label."'";
 
                 if ($label !== $class && $label !== Str::plural($class)) {
-                    $fields .= ", '" . $methodName . "', " . $class . '::class';
+                    $fields .= ", '".$methodName."', ".$class.'::class';
                 }
 
-                $fields .= '),' . PHP_EOL;
+                $fields .= '),'.PHP_EOL;
             }
 
             $fields .= PHP_EOL;
