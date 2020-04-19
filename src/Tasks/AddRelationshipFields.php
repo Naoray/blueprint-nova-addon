@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Blueprint\Models\Model;
 use Closure;
+use Blueprint\Models\Model;
 use Illuminate\Support\Str;
 
 class AddRelationshipFields
@@ -38,19 +38,19 @@ class AddRelationshipFields
                 $name = Str::beforeLast($name, '_id');
                 $class = Str::studly($class ?? $name);
 
-                $methodName = $type === 'hasMany' ? Str::plural($name) : $name;
+                $methodName = $this->buildMethodName($name, $type);
                 $label = Str::studly($methodName);
 
                 $fieldType = $this->fieldType($type);
                 $imports[] = $fieldType;
 
-                $fields .= self::INDENT.$fieldType."::make('".$label."'";
+                $fields .= self::INDENT . $fieldType . "::make('" . $label . "'";
 
                 if ($label !== $class && $label !== Str::plural($class)) {
-                    $fields .= ", '".$methodName."', ".$class.'::class';
+                    $fields .= ", '" . $methodName . "', " . $class . '::class';
                 }
 
-                $fields .= '),'.PHP_EOL;
+                $fields .= '),' . PHP_EOL;
             }
 
             $fields .= PHP_EOL;
@@ -62,10 +62,23 @@ class AddRelationshipFields
         return $next($data);
     }
 
+    private function buildMethodName(string $name, string $type)
+    {
+        static $pluralRelations = [
+            'belongstomany',
+            'hasmany',
+        ];
+
+        return in_array(strtolower($type), $pluralRelations)
+            ? Str::plural($name)
+            : $name;
+    }
+
     private function fieldType(string $dataType): string
     {
         static $fieldTypes = [
             'belongsto' => 'BelongsTo',
+            'belongstomany' => 'BelongsToMany',
             'hasone' => 'HasOne',
             'hasmany' => 'HasMany',
         ];

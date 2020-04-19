@@ -8,6 +8,7 @@ use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
 
 class Subscription extends Resource
 {
@@ -46,6 +47,8 @@ class Subscription extends Resource
             ID::make()->sortable(),
 
             BelongsTo::make('User'),
+
+            BelongsToMany::make('Teams'),
 
             HasMany::make('Orders'),
 

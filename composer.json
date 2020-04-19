@@ -18,7 +18,7 @@
     "require": {
         "illuminate/pipeline": "^7.0",
         "illuminate/support": "^7.0",
-        "laravel-shift/blueprint": "^1.5"
+        "laravel-shift/blueprint": "^1.6"
     },
     "require-dev": {
         "orchestra/testbench": "^5.0",
