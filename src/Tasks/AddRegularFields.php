@@ -2,11 +2,11 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Blueprint\Models\Column;
-use Blueprint\Models\Model;
-use Blueprint\Translators\Rules;
 use Closure;
+use Blueprint\Models\Model;
+use Blueprint\Models\Column;
 use Illuminate\Support\Collection;
+use Naoray\BlueprintNovaAddon\Translators\Rules;
 
 class AddRegularFields
 {
@@ -31,14 +31,14 @@ class AddRegularFields
             $fieldType = $this->fieldType($column->dataType());
             $imports[] = $fieldType;
 
-            $field = $fieldType."::make('".$this->fieldLabel($column->name())."')";
+            $field = $fieldType . "::make('" . $this->fieldLabel($column->name()) . "')";
             $field .= $this->addRules($column);
 
             if ($column->dataType() === 'json') {
-                $field .= PHP_EOL.self::INDENT_PLUS.'->json()';
+                $field .= PHP_EOL . self::INDENT_PLUS . '->json()';
             }
 
-            $fields .= self::INDENT.$field.','.PHP_EOL.PHP_EOL;
+            $fields .= self::INDENT . $field . ',' . PHP_EOL . PHP_EOL;
         }
 
         $data['fields'] = $fields;
@@ -52,7 +52,7 @@ class AddRegularFields
         return collect($columns)
             ->filter(function (Column $column) {
                 return $column->dataType() !== 'id'
-                    && ! collect(['id', 'deleted_at', 'created_at', 'updated_at'])->contains($column->name());
+                    && !collect(['id', 'deleted_at', 'created_at', 'updated_at'])->contains($column->name());
             });
     }
 
@@ -63,31 +63,19 @@ class AddRegularFields
 
     private function addRules(Column $column): string
     {
-        $fieldRules = '';
-
-        if (! in_array($column->dataType(), ['id'])) {
-            $rules = Rules::fromColumn($this->model->tableName(), $column);
-
-            if ($column->dataType() === 'json') {
-                array_push($rules, 'json');
-            }
-
-            if (in_array('nullable', $column->modifiers())) {
-                $rules = array_filter($rules, function ($rule) {
-                    return $rule !== 'required';
-                });
-            }
-
-            $rules = array_map(function ($rule) {
-                return " '".$rule."'";
-            }, $rules);
-
-            if (! empty($rules)) {
-                $fieldRules .= PHP_EOL.self::INDENT_PLUS.'->rules('.trim(implode(',', $rules)).')';
-            }
+        if (in_array($column->dataType(), ['id'])) {
+            return '';
         }
 
-        return $fieldRules;
+        $rules = array_map(function ($rule) {
+            return " '" . $rule . "'";
+        }, Rules::fromColumn($this->model->tableName(), $column));
+
+        if (empty($rules)) {
+            return '';
+        }
+
+        return PHP_EOL . self::INDENT_PLUS . '->rules(' . trim(implode(',', $rules)) . ')';
     }
 
     private function fieldType(string $dataType)
