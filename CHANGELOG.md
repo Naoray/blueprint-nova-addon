@@ -1,16 +1,23 @@
 # Changelog
 
-## [Unreleased](https://github.com/naoray/blueprint-nova-addon/tree/HEAD)
+## [v1.1.0](https://github.com/naoray/blueprint-nova-addon/tree/v1.1.0) (2020-04-19)
 
-[Full Changelog](https://github.com/naoray/blueprint-nova-addon/compare/1.0.0...HEAD)
+[Full Changelog](https://github.com/naoray/blueprint-nova-addon/compare/v1.0.0...v1.1.0)
+
+**Implemented enhancements:**
+
+- Add nullable to BelongsTo relations when column is nullable [\#4](https://github.com/Naoray/blueprint-nova-addon/issues/4)
 
 **Merged pull requests:**
 
+- Apply fixes from StyleCI [\#5](https://github.com/Naoray/blueprint-nova-addon/pull/5) ([Naoray](https://github.com/Naoray))
+- Apply fixes from StyleCI [\#3](https://github.com/Naoray/blueprint-nova-addon/pull/3) ([Naoray](https://github.com/Naoray))
+- Apply fixes from StyleCI [\#2](https://github.com/Naoray/blueprint-nova-addon/pull/2) ([Naoray](https://github.com/Naoray))
 - Apply fixes from StyleCI [\#1](https://github.com/Naoray/blueprint-nova-addon/pull/1) ([Naoray](https://github.com/Naoray))
 
-## [1.0.0](https://github.com/naoray/blueprint-nova-addon/tree/1.0.0) (2020-04-17)
+## [v1.0.0](https://github.com/naoray/blueprint-nova-addon/tree/v1.0.0) (2020-04-17)
 
-[Full Changelog](https://github.com/naoray/blueprint-nova-addon/compare/1ae951c7cdaa821bbc4486c915361fe9ee63605b...1.0.0)
+[Full Changelog](https://github.com/naoray/blueprint-nova-addon/compare/1ae951c7cdaa821bbc4486c915361fe9ee63605b...v1.0.0)
 
 
 
