@@ -2,10 +2,10 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
-use Blueprint\Models\Model;
-use Illuminate\Support\Arr;
 use Blueprint\Models\Column;
+use Blueprint\Models\Model;
+use Closure;
+use Illuminate\Support\Arr;
 
 class AddIdentifierField
 {
@@ -25,8 +25,8 @@ class AddIdentifierField
     {
         $column = $this->identifierColumn();
 
-        $identifierName = $column->name() === 'id' ? '' : "'" . $column->name() . "'";
-        $data['fields'] .= 'ID::make(' . $identifierName . ')->sortable(),' . PHP_EOL . PHP_EOL;
+        $identifierName = $column->name() === 'id' ? '' : "'".$column->name()."'";
+        $data['fields'] .= 'ID::make('.$identifierName.')->sortable(),'.PHP_EOL.PHP_EOL;
         $data['imports'][] = 'ID';
 
         return $next($data);

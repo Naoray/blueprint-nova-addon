@@ -17,7 +17,7 @@ trait InteractWithRelationships
             ->map(function (Column $column) {
                 return empty($column->attributes())
                     ? $column->name()
-                    : implode(':', $column->attributes()) . ":{$column->name()}";
+                    : implode(':', $column->attributes()).":{$column->name()}";
             });
     }
 }
