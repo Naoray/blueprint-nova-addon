@@ -1,17 +1,17 @@
 # Blueprint Nova Addon
 
-[![Build Status](https://img.shields.io/travis/naoray/blueprint-nova-addon/master.svg?style=flat-square)](https://travis-ci.org/naoray/blueprint-nova-addon)
-[![Total Downloads](https://img.shields.io/packagist/dt/naoray/blueprint-nova-addon.svg?style=flat-square)](https://packagist.org/packages/naoray/blueprint-nova-addon)
+![Build Status](https://travis-ci.org/Naoray/blueprint-nova-addon.svg?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/naoray/blueprint-nova-addon.svg?style=flat)](https://packagist.org/packages/naoray/blueprint-nova-addon)
 
 :mega: Shoutout to [Jason McCreary](https://github.com/jasonmccreary) whose [Blueprint](https://github.com/laravel-shift/blueprint) package lays the groundwork for this small addon. Thank you Jason :raised_hands:
 
 Installing this addon will allow you to generate your Nova resources with the `php artisan blueprint:build` command.
 
 ## Installation
-You can install the package via composer:
+You can install this package and **Blueprint** via composer:
 
 ```bash
-composer require naoray/blueprint-nova-addon --dev
+composer require --dev laravel-shift/blueprint naoray/blueprint-nova-addon
 ```
 
 > :warning: You need to have [laravel nova](nova.laravel.com/) installed in order for the resource generation to take place!
