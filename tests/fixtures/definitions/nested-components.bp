@@ -1,18 +1,4 @@
 models:
   Admin/User:
     name: string
-
-controllers:
-  Admin/User:
-    index:
-      query: all
-      render: admin.user.index with:users
-
-    store:
-      validate: name
-      save: user
-      send: InviteNotification to:user.name with:user
-      dispatch: BuildAccount with:user
-      fire: NewUser with:user
-      flash: user.name
-      redirect: admin.user.index
+    password: string
