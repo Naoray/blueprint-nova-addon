@@ -2,9 +2,9 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
-use Blueprint\Models\Model;
 use Blueprint\Models\Column;
+use Blueprint\Models\Model;
+use Closure;
 use Illuminate\Support\Collection;
 use Naoray\BlueprintNovaAddon\Translators\Rules;
 
@@ -31,14 +31,14 @@ class AddRegularFields
             $fieldType = $this->fieldType($column->dataType());
             $imports[] = $fieldType;
 
-            $field = $fieldType . "::make('" . $this->fieldLabel($column->name()) . "')";
+            $field = $fieldType."::make('".$this->fieldLabel($column->name())."')";
             $field .= $this->addRules($column);
 
             if ($column->dataType() === 'json') {
-                $field .= PHP_EOL . self::INDENT_PLUS . '->json()';
+                $field .= PHP_EOL.self::INDENT_PLUS.'->json()';
             }
 
-            $fields .= self::INDENT . $field . ',' . PHP_EOL . PHP_EOL;
+            $fields .= self::INDENT.$field.','.PHP_EOL.PHP_EOL;
         }
 
         $data['fields'] = $fields;
@@ -52,7 +52,7 @@ class AddRegularFields
         return collect($columns)
             ->filter(function (Column $column) {
                 return $column->dataType() !== 'id'
-                    && !collect(['id', 'deleted_at', 'created_at', 'updated_at'])->contains($column->name());
+                    && ! collect(['id', 'deleted_at', 'created_at', 'updated_at'])->contains($column->name());
             });
     }
 
@@ -68,14 +68,14 @@ class AddRegularFields
         }
 
         $rules = array_map(function ($rule) {
-            return " '" . $rule . "'";
+            return " '".$rule."'";
         }, Rules::fromColumn($this->model->tableName(), $column));
 
         if (empty($rules)) {
             return '';
         }
 
-        return PHP_EOL . self::INDENT_PLUS . '->rules(' . trim(implode(',', $rules)) . ')';
+        return PHP_EOL.self::INDENT_PLUS.'->rules('.trim(implode(',', $rules)).')';
     }
 
     private function fieldType(string $dataType)
