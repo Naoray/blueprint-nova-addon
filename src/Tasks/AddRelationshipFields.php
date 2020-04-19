@@ -4,10 +4,13 @@ namespace Naoray\BlueprintNovaAddon\Tasks;
 
 use Closure;
 use Blueprint\Models\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class AddRelationshipFields
 {
+    use InteractWithRelationships;
+
     const INDENT = '            ';
 
     /** @var Model */
@@ -46,11 +49,17 @@ class AddRelationshipFields
 
                 $fields .= self::INDENT . $fieldType . "::make('" . $label . "'";
 
-                if ($label !== $class && $label !== Str::plural($class)) {
+                if ($this->classNameNotGuessable($label, $class)) {
                     $fields .= ", '" . $methodName . "', " . $class . '::class';
                 }
 
-                $fields .= '),' . PHP_EOL;
+                $fields .= ')';
+
+                if ($this->isNullable($reference)) {
+                    $fields .= '->nullable()';
+                }
+
+                $fields .= ',' . PHP_EOL;
             }
 
             $fields .= PHP_EOL;
@@ -72,6 +81,25 @@ class AddRelationshipFields
         return in_array(strtolower($type), $pluralRelations)
             ? Str::plural($name)
             : $name;
+    }
+
+    private function classNameNotGuessable($label, $class): bool
+    {
+        return $label !== $class
+            && $label !== Str::plural($class);
+    }
+
+    private function isNullable($relation): bool
+    {
+        $relationColumnName = $this->relationshipIdentifiers($this->model->columns())
+            ->filter(function ($relationReference, $columnName) use ($relation) {
+                return in_array($relationReference, Arr::get($this->model->relationships(), 'belongsTo', []))
+                    && $columnName === $relation;
+            })
+            ->first();
+
+        return !is_null($relationColumnName)
+            && in_array('nullable', $this->model->columns()[$relationColumnName]->modifiers());
     }
 
     private function fieldType(string $dataType): string
