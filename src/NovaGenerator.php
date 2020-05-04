@@ -84,7 +84,7 @@ class NovaGenerator implements Generator
         return $stub;
     }
 
-    private function getNovaNamespace(Model $model): string
+    protected function getNovaNamespace(Model $model): string
     {
         $namespace = Str::of($model->fullyQualifiedNamespace())
             ->after(config('blueprint.namespace'))
