@@ -68,8 +68,6 @@ class AddRegularFields
             return " '".$rule."'";
         }, Rules::fromColumn($this->model->tableName(), $column));
 
-        dump($rules);
-
         if (empty($rules)) {
             return '';
         }
