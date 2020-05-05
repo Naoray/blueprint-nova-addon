@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.1.1](https://github.com/naoray/blueprint-nova-addon/tree/v1.1.0) (2020-05-05)
+**Fixed**
+
+- duplicate `json` Field rules (https://github.com/Naoray/blueprint-nova-addon/commit/c90502715848d960efc1687b93bc92409678416f)
+
+**Changed**
+
+- `getNovaNamespace()` is now `protected` instead of `private` (https://github.com/Naoray/blueprint-nova-addon/pull/9)
+
 ## [v1.1.0](https://github.com/naoray/blueprint-nova-addon/tree/v1.1.0) (2020-04-19)
 
 [Full Changelog](https://github.com/naoray/blueprint-nova-addon/compare/v1.0.0...v1.1.0)
