@@ -11,10 +11,6 @@ class Rules
     {
         $rules = BlueprintRules::fromColumn($tableName, $column);
 
-        if ($column->dataType() === 'json') {
-            array_push($rules, 'json');
-        }
-
         if (in_array('nullable', $column->modifiers())) {
             $rules = array_filter($rules, function ($rule) {
                 return $rule !== 'required';
