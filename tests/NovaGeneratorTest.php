@@ -56,6 +56,7 @@ class NovaGeneratorTest extends TestCase
         $this->files->expects('exists')
             ->with(dirname($path))
             ->andReturnTrue();
+
         $this->files->expects('put')
             ->with($path, $this->fixture($novaResource));
 
@@ -116,9 +117,9 @@ class NovaGeneratorTest extends TestCase
     public function novaTreeDataProvider()
     {
         return [
-            ['definitions/readme-example.bp', 'app/Nova/Post.php', 'nova/readme-example.php'],
-            ['definitions/with-timezones.bp', 'app/Nova/Comment.php', 'nova/with-timezones.php'],
-            ['definitions/relationships.bp', 'app/Nova/Comment.php', 'nova/relationships.php'],
+//            ['definitions/readme-example.bp', 'app/Nova/Post.php', 'nova/readme-example.php'],
+//            ['definitions/with-timezones.bp', 'app/Nova/Comment.php', 'nova/with-timezones.php'],
+//            ['definitions/relationships.bp', 'app/Nova/Comment.php', 'nova/relationships.php'],
             ['definitions/unconventional.bp', 'app/Nova/Team.php', 'nova/unconventional.php'],
             ['definitions/nullable-relationships.bp', 'app/Nova/Subscription.php', 'nova/nullable-relationships.php'],
             /*
