@@ -16,13 +16,10 @@ class AddRelationshipFields
     /** @var Model */
     private $model;
 
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle(array $data, Closure $next)
     {
+        $this->model = $data['model'];
+
         $fields = $data['fields'];
         $imports = $data['imports'];
         $relationships = $this->model->relationships();

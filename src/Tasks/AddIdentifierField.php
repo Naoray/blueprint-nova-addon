@@ -16,13 +16,10 @@ class AddIdentifierField
     /** @var Model */
     private $model;
 
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle($data, Closure $next): array
     {
+        $this->model = $data['model'];
+
         $column = $this->identifierColumn();
 
         $identifierName = $column->name() === 'id' ? '' : "'".$column->name()."'";

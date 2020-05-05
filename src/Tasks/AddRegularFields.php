@@ -16,13 +16,10 @@ class AddRegularFields
     /** @var Model */
     private $model;
 
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle($data, Closure $next): array
     {
+        $this->model = $data['model'];
+
         $fields = $data['fields'];
         $imports = $data['imports'];
 
@@ -70,6 +67,8 @@ class AddRegularFields
         $rules = array_map(function ($rule) {
             return " '".$rule."'";
         }, Rules::fromColumn($this->model->tableName(), $column));
+
+        dump($rules);
 
         if (empty($rules)) {
             return '';
