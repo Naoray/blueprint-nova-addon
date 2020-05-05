@@ -15,7 +15,7 @@ class BlueprintNovaAddonServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/nova_generator.php' => config_path('nova_generator.php'),
-            ], 'nova_generator');
+            ], 'config');
         }
     }
 
@@ -24,7 +24,7 @@ class BlueprintNovaAddonServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/nova_generator.php', 'nova_generator');
+        $this->mergeConfigFrom(__DIR__.'/../config/nova_generator.php', 'config');
 
         $this->app->extend(Blueprint::class, function ($blueprint, $app) {
             $blueprint->registerGenerator(new NovaGenerator($app['files']));
