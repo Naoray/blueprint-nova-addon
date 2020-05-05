@@ -62,17 +62,12 @@ class NovaGenerator implements Generator
         $data = [
             'fields' => '',
             'imports' => [],
+            'model' => $model
         ];
 
         $data = resolve(Pipeline::class)
             ->send($data)
-            ->through([
-                new AddIdentifierField($model),
-                new AddRegularFields($model),
-                new AddRelationshipFields($model),
-                new AddTimestampFields($model),
-                new RemapImports(),
-            ])
+            ->through(config('nova_generator.field_tasks'))
             ->thenReturn();
 
         $stub = str_replace('DummyNamespace', $this->getNovaNamespace($model), $stub);
