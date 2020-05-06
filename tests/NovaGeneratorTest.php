@@ -56,6 +56,7 @@ class NovaGeneratorTest extends TestCase
         $this->files->expects('exists')
             ->with(dirname($path))
             ->andReturnTrue();
+
         $this->files->expects('put')
             ->with($path, $this->fixture($novaResource));
 

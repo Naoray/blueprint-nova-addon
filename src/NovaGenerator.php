@@ -7,11 +7,6 @@ use Blueprint\Contracts\Generator;
 use Blueprint\Models\Model;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
-use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
-use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
-use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
-use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
-use Naoray\BlueprintNovaAddon\Tasks\RemapImports;
 
 class NovaGenerator implements Generator
 {
@@ -62,17 +57,12 @@ class NovaGenerator implements Generator
         $data = [
             'fields' => '',
             'imports' => [],
+            'model' => $model,
         ];
 
         $data = resolve(Pipeline::class)
             ->send($data)
-            ->through([
-                new AddIdentifierField($model),
-                new AddRegularFields($model),
-                new AddRelationshipFields($model),
-                new AddTimestampFields($model),
-                new RemapImports(),
-            ])
+            ->through(config('nova_generator.field_tasks'))
             ->thenReturn();
 
         $stub = str_replace('DummyNamespace', $this->getNovaNamespace($model), $stub);

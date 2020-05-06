@@ -81,6 +81,10 @@ public function fields(Request $request)
 }
 ```
 
+If you want to edit the tasks that are run in the background you can publish the configuration file by running the following command:
+
+`php artisan vendor:publish --provider="Naoray\BlueprintNovaAddon\BlueprintNovaAddonServiceProvider" --tag="nova_generator"`
+
 ### Testing
 
 ``` bash

@@ -12,13 +12,10 @@ class AddTimestampFields
     /** @var Model */
     private $model;
 
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle($data, Closure $next): array
     {
+        $this->model = $data['model'];
+
         $fields = $data['fields'];
         $imports = $data['imports'];
 
