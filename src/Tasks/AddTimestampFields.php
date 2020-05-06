@@ -2,33 +2,26 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Blueprint\Models\Model;
 use Closure;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 
-class AddTimestampFields
+class AddTimestampFields implements Task
 {
     const INDENT = '            ';
 
-    /** @var Model */
-    private $model;
-
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle($data, Closure $next): array
     {
+        $model = $data['model'];
         $fields = $data['fields'];
         $imports = $data['imports'];
 
-        if ($this->model->usesTimestamps()) {
+        if ($model->usesTimestamps()) {
             $imports[] = 'DateTime';
 
             $fields .= self::INDENT."DateTime::make('Created at'),".PHP_EOL.self::INDENT."DateTime::make('Updated at'),";
         }
 
-        if ($this->model->usesSoftDeletes()) {
+        if ($model->usesSoftDeletes()) {
             $imports[] = 'DateTime';
             $fields .= PHP_EOL.self::INDENT."DateTime::make('Deleted at'),";
         }

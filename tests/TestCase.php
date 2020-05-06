@@ -9,10 +9,13 @@ class TestCase extends Orchestra
 {
     protected function getEnvironmentSetUp($app)
     {
+        // blueprint config
         $app['config']->set('blueprint.namespace', 'App');
-        $app['config']->set('blueprint.controllers_namespace', 'Http\\Controllers');
         $app['config']->set('blueprint.models_namespace', '');
         $app['config']->set('blueprint.app_path', 'app');
+
+        // nova blueprint config
+        $app['config']->set('nova_blueprint.timestamps', true);
     }
 
     public function fixture(string $path)

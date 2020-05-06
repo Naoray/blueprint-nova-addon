@@ -6,26 +6,20 @@ use Blueprint\Models\Model;
 use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 
-class AddRelationshipFields
+class AddRelationshipFields implements Task
 {
     use InteractWithRelationships;
 
     const INDENT = '            ';
 
-    /** @var Model */
-    private $model;
-
-    public function __construct(Model $model)
+    public function handle(array $data, Closure $next): array
     {
-        $this->model = $model;
-    }
-
-    public function handle(array $data, Closure $next)
-    {
+        $model = $data['model'];
         $fields = $data['fields'];
         $imports = $data['imports'];
-        $relationships = $this->model->relationships();
+        $relationships = $model->relationships();
 
         ksort($relationships);
 
@@ -55,7 +49,7 @@ class AddRelationshipFields
 
                 $fields .= ')';
 
-                if ($this->isNullable($reference)) {
+                if ($this->isNullable($reference, $model)) {
                     $fields .= '->nullable()';
                 }
 
@@ -89,17 +83,17 @@ class AddRelationshipFields
             && $label !== Str::plural($class);
     }
 
-    private function isNullable($relation): bool
+    private function isNullable($relation, Model $model): bool
     {
-        $relationColumnName = $this->relationshipIdentifiers($this->model->columns())
-            ->filter(function ($relationReference, $columnName) use ($relation) {
-                return in_array($relationReference, Arr::get($this->model->relationships(), 'belongsTo', []))
+        $relationColumnName = $this->relationshipIdentifiers($model->columns())
+            ->filter(function ($relationReference, $columnName) use ($relation, $model) {
+                return in_array($relationReference, Arr::get($model->relationships(), 'belongsTo', []))
                     && $columnName === $relation;
             })
             ->first();
 
         return ! is_null($relationColumnName)
-            && in_array('nullable', $this->model->columns()[$relationColumnName]->modifiers());
+            && in_array('nullable', $model->columns()[$relationColumnName]->modifiers());
     }
 
     private function fieldType(string $dataType): string

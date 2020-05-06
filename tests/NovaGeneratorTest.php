@@ -5,6 +5,10 @@ namespace Naoray\BlueprintNovaAddon\Tests;
 use Blueprint\Blueprint;
 use Naoray\BlueprintNovaAddon\HasStubPath;
 use Naoray\BlueprintNovaAddon\NovaGenerator;
+use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
+use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
 
 class NovaGeneratorTest extends TestCase
 {
@@ -23,6 +27,10 @@ class NovaGeneratorTest extends TestCase
 
         $this->files = \Mockery::mock();
         $this->subject = new NovaGenerator($this->files);
+        $this->subject->registerTask(new AddIdentifierField());
+        $this->subject->registerTask(new AddRegularFields());
+        $this->subject->registerTask(new AddRelationshipFields());
+        $this->subject->registerTask(new AddTimestampFields());
 
         $this->blueprint = new Blueprint();
         $this->blueprint->registerLexer(new \Blueprint\Lexers\ModelLexer());
@@ -56,6 +64,7 @@ class NovaGeneratorTest extends TestCase
         $this->files->expects('exists')
             ->with(dirname($path))
             ->andReturnTrue();
+
         $this->files->expects('put')
             ->with($path, $this->fixture($novaResource));
 
@@ -89,7 +98,7 @@ class NovaGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function output_respects_configuration()
+    public function output_respects_blueprint_configurations()
     {
         $this->app['config']->set('blueprint.app_path', 'src/path');
         $this->app['config']->set('blueprint.namespace', 'Some\\App');
@@ -111,6 +120,31 @@ class NovaGeneratorTest extends TestCase
         $tree = $this->blueprint->analyze($tokens);
 
         $this->assertEquals(['created' => ['src/path/Nova/Comment.php']], $this->subject->output($tree));
+    }
+
+    /**
+     * @test
+     */
+    public function output_respects_packages_configuration()
+    {
+        $this->app['config']->set('nova_blueprint.timestamps', false);
+
+        $this->files->expects('get')
+            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->andReturn(file_get_contents('stubs/class.stub'));
+
+        $this->files->expects('exists')
+            ->with('app/Nova')
+            ->andReturnFalse();
+        $this->files->expects('makeDirectory')
+            ->with('app/Nova', 0755, true);
+        $this->files->expects('put')
+            ->with('app/Nova/Comment.php', $this->fixture('nova/model-configured-without-timestamps.php'));
+
+        $tokens = $this->blueprint->parse($this->fixture('definitions/relationships.bp'));
+        $tree = $this->blueprint->analyze($tokens);
+
+        $this->assertEquals(['created' => ['app/Nova/Comment.php']], $this->subject->output($tree));
     }
 
     public function novaTreeDataProvider()

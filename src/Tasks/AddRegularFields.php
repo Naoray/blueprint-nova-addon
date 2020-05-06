@@ -3,36 +3,29 @@
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
 use Blueprint\Models\Column;
-use Blueprint\Models\Model;
 use Closure;
 use Illuminate\Support\Collection;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 use Naoray\BlueprintNovaAddon\Translators\Rules;
 
-class AddRegularFields
+class AddRegularFields implements Task
 {
     const INDENT = '            ';
     const INDENT_PLUS = '                ';
 
-    /** @var Model */
-    private $model;
-
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle($data, Closure $next): array
     {
+        $model = $data['model'];
         $fields = $data['fields'];
         $imports = $data['imports'];
 
-        $columns = $this->regularColumns($this->model->columns());
+        $columns = $this->regularColumns($model->columns());
         foreach ($columns as $column) {
             $fieldType = $this->fieldType($column->dataType());
             $imports[] = $fieldType;
 
             $field = $fieldType."::make('".$this->fieldLabel($column->name())."')";
-            $field .= $this->addRules($column);
+            $field .= $this->addRules($column, $model->tableName());
 
             if ($column->dataType() === 'json') {
                 $field .= PHP_EOL.self::INDENT_PLUS.'->json()';
@@ -61,7 +54,7 @@ class AddRegularFields
         return str_replace('_', ' ', ucfirst($name));
     }
 
-    private function addRules(Column $column): string
+    private function addRules(Column $column, string $tableName): string
     {
         if (in_array($column->dataType(), ['id'])) {
             return '';
@@ -69,7 +62,7 @@ class AddRegularFields
 
         $rules = array_map(function ($rule) {
             return " '".$rule."'";
-        }, Rules::fromColumn($this->model->tableName(), $column));
+        }, Rules::fromColumn($tableName, $column));
 
         if (empty($rules)) {
             return '';

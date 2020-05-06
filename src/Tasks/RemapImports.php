@@ -3,8 +3,9 @@
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
 use Closure;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 
-class RemapImports
+class RemapImports implements Task
 {
     public function handle(array $data, Closure $next): array
     {

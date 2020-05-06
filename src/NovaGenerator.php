@@ -7,9 +7,7 @@ use Blueprint\Contracts\Generator;
 use Blueprint\Models\Model;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
-use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
-use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
-use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
 use Naoray\BlueprintNovaAddon\Tasks\RemapImports;
 
@@ -22,6 +20,9 @@ class NovaGenerator implements Generator
 
     /** @var array */
     private $imports = [];
+
+    /** @var array */
+    private $tasks = [];
 
     public function __construct($files)
     {
@@ -59,20 +60,13 @@ class NovaGenerator implements Generator
 
     protected function populateStub(string $stub, Model $model): string
     {
-        $data = [
-            'fields' => '',
-            'imports' => [],
-        ];
-
         $data = resolve(Pipeline::class)
-            ->send($data)
-            ->through([
-                new AddIdentifierField($model),
-                new AddRegularFields($model),
-                new AddRelationshipFields($model),
-                new AddTimestampFields($model),
-                new RemapImports(),
+            ->send([
+                'fields' => '',
+                'imports' => [],
+                'model' => $model,
             ])
+            ->through($this->filteredTasks())
             ->thenReturn();
 
         $stub = str_replace('DummyNamespace', $this->getNovaNamespace($model), $stub);
@@ -95,5 +89,33 @@ class NovaGenerator implements Generator
         }
 
         return $namespace->__toString();
+    }
+
+    public function registerTask(Task $task): void
+    {
+        $this->tasks[get_class($task)] = $task;
+    }
+
+    public function removeTask(string $taskName)
+    {
+        $taskClassNames = array_map(function ($taskObj) {
+            return get_class($taskObj);
+        }, $this->tasks);
+
+        $targetIndex = array_search($taskName, $taskClassNames);
+        array_splice($this->tasks, $targetIndex, 1);
+    }
+
+    protected function filteredTasks(): array
+    {
+        $tasks = $this->tasks;
+
+        if (! config('nova_blueprint.timestamps')) {
+            $tasks = array_filter($tasks, function ($key) {
+                return $key !== AddTimestampFields::class;
+            }, ARRAY_FILTER_USE_KEY);
+        }
+
+        return array_merge($tasks, [new RemapImports]);
     }
 }

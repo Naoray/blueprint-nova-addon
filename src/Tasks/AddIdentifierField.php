@@ -6,24 +6,17 @@ use Blueprint\Models\Column;
 use Blueprint\Models\Model;
 use Closure;
 use Illuminate\Support\Arr;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 
-class AddIdentifierField
+class AddIdentifierField implements Task
 {
     use InteractWithRelationships;
 
     const INDENT = '            ';
 
-    /** @var Model */
-    private $model;
-
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function handle($data, Closure $next): array
     {
-        $column = $this->identifierColumn();
+        $column = $this->identifierColumn($data['model']);
 
         $identifierName = $column->name() === 'id' ? '' : "'".$column->name()."'";
         $data['fields'] .= 'ID::make('.$identifierName.')->sortable(),'.PHP_EOL.PHP_EOL;
@@ -32,14 +25,14 @@ class AddIdentifierField
         return $next($data);
     }
 
-    private function identifierColumn(): Column
+    private function identifierColumn(Model $model): Column
     {
-        $name = $this->relationshipIdentifiers($this->model->columns())
+        $name = $this->relationshipIdentifiers($model->columns())
             ->values()
             // filter out all relationships
-            ->diff(Arr::get($this->model->relationships(), 'belongsTo', []))
+            ->diff(Arr::get($model->relationships(), 'belongsTo', []))
             ->first();
 
-        return $this->model->columns()[$name];
+        return $model->columns()[$name];
     }
 }
