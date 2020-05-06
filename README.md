@@ -81,17 +81,23 @@ public function fields(Request $request)
 }
 ```
 
-If you want to edit the tasks that are run in the background you can publish the configuration file by running the following command:
+## Configuration
+You may publish the configuration with the following command:
 
-`php artisan vendor:publish --provider="Naoray\BlueprintNovaAddon\BlueprintNovaAddonServiceProvider" --tag="nova_generator"`
+```bash
+php artisan vendor:publish --tag=blueprint-nova-config
+```
 
-### Testing
+### Timestamp fields
+To disable the generation of `timestamp` fields for all Nova resources set this option to `false`.
+
+## Testing
 
 ``` bash
 composer test
 ```
 
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
@@ -99,7 +105,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+## Security
 
 If you discover any security related issues, please email krishan.koenig@gmail.com instead of using the issue tracker.
 
@@ -111,7 +117,3 @@ If you discover any security related issues, please email krishan.koenig@gmail.c
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).

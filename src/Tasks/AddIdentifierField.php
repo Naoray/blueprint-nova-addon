@@ -2,41 +2,37 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Blueprint\Models\Column;
-use Blueprint\Models\Model;
 use Closure;
+use Blueprint\Models\Model;
 use Illuminate\Support\Arr;
+use Blueprint\Models\Column;
+use Naoray\BlueprintNovaAddon\Contracts\Task;
 
-class AddIdentifierField
+class AddIdentifierField implements Task
 {
     use InteractWithRelationships;
 
     const INDENT = '            ';
 
-    /** @var Model */
-    private $model;
-
     public function handle($data, Closure $next): array
     {
-        $this->model = $data['model'];
+        $column = $this->identifierColumn($data['model']);
 
-        $column = $this->identifierColumn();
-
-        $identifierName = $column->name() === 'id' ? '' : "'".$column->name()."'";
-        $data['fields'] .= 'ID::make('.$identifierName.')->sortable(),'.PHP_EOL.PHP_EOL;
+        $identifierName = $column->name() === 'id' ? '' : "'" . $column->name() . "'";
+        $data['fields'] .= 'ID::make(' . $identifierName . ')->sortable(),' . PHP_EOL . PHP_EOL;
         $data['imports'][] = 'ID';
 
         return $next($data);
     }
 
-    private function identifierColumn(): Column
+    private function identifierColumn(Model $model): Column
     {
-        $name = $this->relationshipIdentifiers($this->model->columns())
+        $name = $this->relationshipIdentifiers($model->columns())
             ->values()
             // filter out all relationships
-            ->diff(Arr::get($this->model->relationships(), 'belongsTo', []))
+            ->diff(Arr::get($model->relationships(), 'belongsTo', []))
             ->first();
 
-        return $this->model->columns()[$name];
+        return $model->columns()[$name];
     }
 }
