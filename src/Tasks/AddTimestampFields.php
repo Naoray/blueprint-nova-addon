@@ -18,12 +18,12 @@ class AddTimestampFields implements Task
         if ($model->usesTimestamps()) {
             $imports[] = 'DateTime';
 
-            $fields .= self::INDENT . "DateTime::make('Created at')," . PHP_EOL . self::INDENT . "DateTime::make('Updated at'),";
+            $fields .= self::INDENT."DateTime::make('Created at'),".PHP_EOL.self::INDENT."DateTime::make('Updated at'),";
         }
 
         if ($model->usesSoftDeletes()) {
             $imports[] = 'DateTime';
-            $fields .= PHP_EOL . self::INDENT . "DateTime::make('Deleted at'),";
+            $fields .= PHP_EOL.self::INDENT."DateTime::make('Deleted at'),";
         }
 
         $data['fields'] = $fields;

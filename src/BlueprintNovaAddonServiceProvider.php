@@ -3,12 +3,12 @@
 namespace Naoray\BlueprintNovaAddon;
 
 use Blueprint\Blueprint;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
+use Illuminate\Support\ServiceProvider;
 use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
-use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
 use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
 
 class BlueprintNovaAddonServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -19,7 +19,7 @@ class BlueprintNovaAddonServiceProvider extends ServiceProvider implements Defer
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                dirname(__DIR__) . '/config/nova_blueprint.php' => config_path('nova_blueprint.php'),
+                dirname(__DIR__).'/config/nova_blueprint.php' => config_path('nova_blueprint.php'),
             ], 'nova_blueprint');
         }
     }
@@ -30,7 +30,7 @@ class BlueprintNovaAddonServiceProvider extends ServiceProvider implements Defer
     public function register()
     {
         $this->mergeConfigFrom(
-            dirname(__DIR__) . '/config/nova_blueprint.php',
+            dirname(__DIR__).'/config/nova_blueprint.php',
             'blueprint-nova-config'
         );
 

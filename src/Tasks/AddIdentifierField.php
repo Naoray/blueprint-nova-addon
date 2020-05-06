@@ -2,10 +2,10 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
-use Blueprint\Models\Model;
-use Illuminate\Support\Arr;
 use Blueprint\Models\Column;
+use Blueprint\Models\Model;
+use Closure;
+use Illuminate\Support\Arr;
 use Naoray\BlueprintNovaAddon\Contracts\Task;
 
 class AddIdentifierField implements Task
@@ -18,8 +18,8 @@ class AddIdentifierField implements Task
     {
         $column = $this->identifierColumn($data['model']);
 
-        $identifierName = $column->name() === 'id' ? '' : "'" . $column->name() . "'";
-        $data['fields'] .= 'ID::make(' . $identifierName . ')->sortable(),' . PHP_EOL . PHP_EOL;
+        $identifierName = $column->name() === 'id' ? '' : "'".$column->name()."'";
+        $data['fields'] .= 'ID::make('.$identifierName.')->sortable(),'.PHP_EOL.PHP_EOL;
         $data['imports'][] = 'ID';
 
         return $next($data);

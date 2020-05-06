@@ -2,8 +2,8 @@
 
 namespace Naoray\BlueprintNovaAddon\Tasks;
 
-use Closure;
 use Blueprint\Models\Model;
+use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Naoray\BlueprintNovaAddon\Contracts\Task;
@@ -41,10 +41,10 @@ class AddRelationshipFields implements Task
                 $fieldType = $this->fieldType($type);
                 $imports[] = $fieldType;
 
-                $fields .= self::INDENT . $fieldType . "::make('" . $label . "'";
+                $fields .= self::INDENT.$fieldType."::make('".$label."'";
 
                 if ($this->classNameNotGuessable($label, $class)) {
-                    $fields .= ", '" . $methodName . "', " . $class . '::class';
+                    $fields .= ", '".$methodName."', ".$class.'::class';
                 }
 
                 $fields .= ')';
@@ -53,7 +53,7 @@ class AddRelationshipFields implements Task
                     $fields .= '->nullable()';
                 }
 
-                $fields .= ',' . PHP_EOL;
+                $fields .= ','.PHP_EOL;
             }
 
             $fields .= PHP_EOL;
@@ -92,7 +92,7 @@ class AddRelationshipFields implements Task
             })
             ->first();
 
-        return !is_null($relationColumnName)
+        return ! is_null($relationColumnName)
             && in_array('nullable', $model->columns()[$relationColumnName]->modifiers());
     }
 
