@@ -1,9 +1,18 @@
 # Changelog
 
-## [v1.1.1](https://github.com/naoray/blueprint-nova-addon/tree/v1.1.0) (2020-05-05)
+## [v1.2.0](https://github.com/naoray/blueprint-nova-addon/tree/v1.2.0) (2020-05-07)
+**Added**
+- `nova_blueprint` config [929feb6f](https://github.com/Naoray/blueprint-nova-addon/commit/929feb6f6dd8330c3b5037971ccda3b3f19daede)
+- `timestamps` config which enables turning off timestamp fields creation for all resources [929feb6f](https://github.com/Naoray/blueprint-nova-addon/commit/929feb6f6dd8330c3b5037971ccda3b3f19daede#diff-ef12ae52b8e7cab1ee3384afcdb1f607R109)
+
+**Changed**
+- The service provider is now deferrable [887d3f4a](https://github.com/Naoray/blueprint-nova-addon/commit/887d3f4a1b41db79ae75a9c019e87e72ba950ebb)
+- Tasks which add fields to the nova resource are now bound to the `NovaGenerator` class [929feb6f6](https://github.com/Naoray/blueprint-nova-addon/commit/929feb6f6dd8330c3b5037971ccda3b3f19daede#diff-ce67c1a17e4b8189d80af961be48ba22R37)
+
+## [v1.1.1](https://github.com/naoray/blueprint-nova-addon/tree/v1.1.1) (2020-05-05)
 **Fixed**
 
-- duplicate `json` Field rules (https://github.com/Naoray/blueprint-nova-addon/commit/c90502715848d960efc1687b93bc92409678416f)
+- duplicate `json` Field rules [c9050271](https://github.com/Naoray/blueprint-nova-addon/commit/c90502715848d960efc1687b93bc92409678416f)
 
 **Changed**
 
@@ -16,13 +25,6 @@
 **Implemented enhancements:**
 
 - Add nullable to BelongsTo relations when column is nullable [\#4](https://github.com/Naoray/blueprint-nova-addon/issues/4)
-
-**Merged pull requests:**
-
-- Apply fixes from StyleCI [\#5](https://github.com/Naoray/blueprint-nova-addon/pull/5) ([Naoray](https://github.com/Naoray))
-- Apply fixes from StyleCI [\#3](https://github.com/Naoray/blueprint-nova-addon/pull/3) ([Naoray](https://github.com/Naoray))
-- Apply fixes from StyleCI [\#2](https://github.com/Naoray/blueprint-nova-addon/pull/2) ([Naoray](https://github.com/Naoray))
-- Apply fixes from StyleCI [\#1](https://github.com/Naoray/blueprint-nova-addon/pull/1) ([Naoray](https://github.com/Naoray))
 
 ## [v1.0.0](https://github.com/naoray/blueprint-nova-addon/tree/v1.0.0) (2020-04-17)
 
