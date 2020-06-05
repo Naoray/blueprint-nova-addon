@@ -81,7 +81,7 @@ class NovaGenerator implements Generator
     protected function getNovaNamespace(Model $model): string
     {
         $namespace = Str::after($model->fullyQualifiedNamespace(), config('blueprint.namespace'));
-        $namespace =  config('blueprint.namespace').'\Nova'.$namespace;
+        $namespace = config('blueprint.namespace').'\Nova'.$namespace;
 
         if (config('blueprint.models_namespace')) {
             $namespace = str_replace('\\'.config('blueprint.models_namespace'), '', $namespace);
