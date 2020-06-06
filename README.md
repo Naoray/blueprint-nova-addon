@@ -11,7 +11,7 @@ Installing this addon will allow you to generate your Nova resources with the `p
 You can install this package and **Blueprint** via composer:
 
 ```bash
-composer require --dev laravel-shift/blueprint naoray/blueprint-nova-addon
+composer require --dev naoray/blueprint-nova-addon
 ```
 
 > :warning: You need to have [laravel nova](https://nova.laravel.com/) installed in order for the resource generation to take place!
