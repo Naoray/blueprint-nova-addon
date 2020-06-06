@@ -15,7 +15,7 @@ trait InteractWithRelationships
             })
             // map id columns to match related relationships
             ->map(function (Column $column) {
-                return empty($column->attributes())
+                return empty($column->attributes()) || in_array('primary', $column->modifiers())
                     ? $column->name()
                     : implode(':', $column->attributes()).":{$column->name()}";
             });
