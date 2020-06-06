@@ -155,6 +155,7 @@ class NovaGeneratorTest extends TestCase
             ['definitions/relationships.bp', 'app/Nova/Comment.php', 'nova/relationships.php'],
             ['definitions/unconventional.bp', 'app/Nova/Team.php', 'nova/unconventional.php'],
             ['definitions/nullable-relationships.bp', 'app/Nova/Subscription.php', 'nova/nullable-relationships.php'],
+            ['definitions/string-primary-key.bp', 'app/Nova/Post.php', 'nova/string-primary-key.php'],
             /*
              * @todo work on this
              */

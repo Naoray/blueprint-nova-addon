@@ -1,0 +1,6 @@
+models:
+  Post:
+    id: string primary
+    title: string:400
+    content: longtext
+    published_at: nullable timestamp
