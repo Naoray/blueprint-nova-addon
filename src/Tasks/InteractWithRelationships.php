@@ -11,7 +11,7 @@ trait InteractWithRelationships
     {
         return collect($columns)
             ->filter(function (Column $column) {
-                return $column->dataType() === 'id';
+                return $column->dataType() === 'id' || in_array('primary', $column->modifiers());
             })
             // map id columns to match related relationships
             ->map(function (Column $column) {
