@@ -14,7 +14,7 @@ You can install this package and **Blueprint** via composer:
 composer require --dev laravel-shift/blueprint naoray/blueprint-nova-addon
 ```
 
-> :warning: You need to have [laravel nova](nova.laravel.com/) installed in order for the resource generation to take place!
+> :warning: You need to have [laravel nova](https://nova.laravel.com/) installed in order for the resource generation to take place!
 
 ## Usage
 Refer to [Blueprint's Basic Usage](https://github.com/laravel-shift/blueprint#basic-usage) to get started. Afterwards you can run the `blueprint:build` command to generate Nova resources automatically. To get an idea of how easy it is you can use the example `draft.yaml` file below.
