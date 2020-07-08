@@ -117,4 +117,9 @@ class NovaGenerator implements Generator
 
         return array_merge($tasks, [new RemapImports]);
     }
+
+    public function types(): array
+    {
+        return ['nova'];
+    }
 }
