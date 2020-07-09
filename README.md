@@ -23,7 +23,7 @@ Refer to [Blueprint's Basic Usage](https://github.com/laravel-shift/blueprint#ba
 # draft.yaml
 models:
   Post:
-    author_id: id:user
+    author_id: id foreign:users
     title: string:400
     content: longtext
     published_at: nullable timestamp
@@ -31,7 +31,7 @@ models:
       HasMany: Comment
 
   Comment:
-    post_id:i 
+    post_id: id foreign
     content: longtext
     published_at: nullable timestamp
 ```
