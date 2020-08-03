@@ -3,9 +3,9 @@
 namespace Naoray\BlueprintNovaAddon;
 
 use Blueprint\Blueprint;
-use Blueprint\Tree;
 use Blueprint\Contracts\Generator;
 use Blueprint\Models\Model;
+use Blueprint\Tree;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Str;
 use Naoray\BlueprintNovaAddon\Contracts\Task;
