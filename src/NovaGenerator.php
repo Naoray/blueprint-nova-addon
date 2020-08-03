@@ -3,6 +3,7 @@
 namespace Naoray\BlueprintNovaAddon;
 
 use Blueprint\Blueprint;
+use Blueprint\Tree;
 use Blueprint\Contracts\Generator;
 use Blueprint\Models\Model;
 use Illuminate\Pipeline\Pipeline;
@@ -29,7 +30,7 @@ class NovaGenerator implements Generator
         $this->files = $files;
     }
 
-    public function output(array $tree): array
+    public function output(Tree $tree): array
     {
         $output = [];
 
