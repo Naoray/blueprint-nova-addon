@@ -2,15 +2,15 @@
 
 namespace Naoray\BlueprintNovaAddon;
 
-use Blueprint\Tree;
 use Blueprint\Blueprint;
-use Blueprint\Models\Model;
-use Illuminate\Support\Str;
-use Illuminate\Pipeline\Pipeline;
 use Blueprint\Contracts\Generator;
+use Blueprint\Models\Model;
+use Blueprint\Tree;
+use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Str;
 use Naoray\BlueprintNovaAddon\Contracts\Task;
-use Naoray\BlueprintNovaAddon\Tasks\RemapImports;
 use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
+use Naoray\BlueprintNovaAddon\Tasks\RemapImports;
 
 class NovaGenerator implements Generator
 {
@@ -34,13 +34,13 @@ class NovaGenerator implements Generator
     {
         $output = [];
 
-        $stub = $this->files->get($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub');
+        $stub = $this->files->get($this->stubPath().DIRECTORY_SEPARATOR.'class.stub');
 
         /** @var \Blueprint\Models\Model $model */
         foreach ($tree->models() as $model) {
             $path = $this->getPath($model);
 
-            if (!$this->files->exists(dirname($path))) {
+            if (! $this->files->exists(dirname($path))) {
                 $this->files->makeDirectory(dirname($path), 0755, true);
             }
 
@@ -54,9 +54,9 @@ class NovaGenerator implements Generator
 
     protected function getPath(Model $model): string
     {
-        $path = str_replace('\\', '/', Blueprint::relativeNamespace($this->getNovaNamespace($model) . '/' . $model->name()));
+        $path = str_replace('\\', '/', Blueprint::relativeNamespace($this->getNovaNamespace($model).'/'.$model->name()));
 
-        return config('blueprint.app_path') . '/' . $path . '.php';
+        return config('blueprint.app_path').'/'.$path.'.php';
     }
 
     protected function populateStub(string $stub, Model $model): string
@@ -72,7 +72,7 @@ class NovaGenerator implements Generator
 
         $stub = str_replace('DummyNamespace', $this->getNovaNamespace($model), $stub);
         $stub = str_replace('DummyClass', $model->name(), $stub);
-        $stub = str_replace('DummyModel', '\\' . $model->fullyQualifiedClassName(), $stub);
+        $stub = str_replace('DummyModel', '\\'.$model->fullyQualifiedClassName(), $stub);
         $stub = str_replace('// fields...', $data['fields'], $stub);
         $stub = str_replace('use Illuminate\Http\Request;', implode(PHP_EOL, $data['imports']), $stub);
 
@@ -82,10 +82,10 @@ class NovaGenerator implements Generator
     protected function getNovaNamespace(Model $model): string
     {
         $namespace = Str::after($model->fullyQualifiedNamespace(), config('blueprint.namespace'));
-        $namespace = config('blueprint.namespace') . '\Nova' . $namespace;
+        $namespace = config('blueprint.namespace').'\Nova'.$namespace;
 
         if (config('blueprint.models_namespace')) {
-            $namespace = str_replace('\\' . config('blueprint.models_namespace'), '', $namespace);
+            $namespace = str_replace('\\'.config('blueprint.models_namespace'), '', $namespace);
         }
 
         return $namespace;
@@ -110,7 +110,7 @@ class NovaGenerator implements Generator
     {
         $tasks = $this->tasks;
 
-        if (!config('nova_blueprint.timestamps')) {
+        if (! config('nova_blueprint.timestamps')) {
             $tasks = array_filter($tasks, function ($key) {
                 return $key !== AddTimestampFields::class;
             }, ARRAY_FILTER_USE_KEY);
