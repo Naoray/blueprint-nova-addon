@@ -45,6 +45,7 @@ class AddRegularFields implements Task
         return collect($columns)
             ->filter(function (Column $column) {
                 return $column->dataType() !== 'id'
+                    && $column->dataType() !== 'uuid'
                     && ! collect(['id', 'deleted_at', 'created_at', 'updated_at'])->contains($column->name());
             });
     }
