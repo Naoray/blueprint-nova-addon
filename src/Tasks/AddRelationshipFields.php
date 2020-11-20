@@ -103,6 +103,10 @@ class AddRelationshipFields implements Task
             'belongstomany' => 'BelongsToMany',
             'hasone' => 'HasOne',
             'hasmany' => 'HasMany',
+            'morphto' => 'MorphTo',
+            'morphone' => 'MorphOne',
+            'morphmany' => 'MorphMany',
+            'morphtomany' => 'MorphToMany'
         ];
 
         return $fieldTypes[strtolower($dataType)];
