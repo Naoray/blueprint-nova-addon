@@ -106,7 +106,6 @@ class AddRelationshipFields implements Task
             'morphto' => 'MorphTo',
             'morphone' => 'MorphOne',
             'morphmany' => 'MorphMany',
-            'morphtomany' => 'MorphToMany'
         ];
 
         return $fieldTypes[strtolower($dataType)];
