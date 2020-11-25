@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\MorphOne;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\BelongsToMany;
 
 class Subscription extends Resource
@@ -54,6 +56,10 @@ class Subscription extends Resource
 
             HasOne::make('Duration'),
             HasOne::make('Transaction'),
+
+            MorphMany::make('Payments'),
+
+            MorphOne::make('Commentable'),
 
             DateTime::make('Created at'),
             DateTime::make('Updated at'),
