@@ -74,7 +74,7 @@ class AddRelationshipFields implements Task
         static $pluralRelations = [
             'belongstomany',
             'hasmany',
-            'morphmany'
+            'morphmany',
         ];
 
         return in_array(strtolower($type), $pluralRelations)
