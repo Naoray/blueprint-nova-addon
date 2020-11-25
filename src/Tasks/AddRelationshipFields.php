@@ -41,9 +41,13 @@ class AddRelationshipFields implements Task
                 $fieldType = $this->fieldType($type);
                 $imports[] = $fieldType;
 
+                if ($fieldType === 'MorphTo') {
+                    $label .= 'able';
+                }
+
                 $fields .= self::INDENT.$fieldType."::make('".$label."'";
 
-                if ($this->classNameNotGuessable($label, $class)) {
+                if ($fieldType !== 'MorphTo' && $this->classNameNotGuessable($label, $class)) {
                     $fields .= ", '".$methodName."', ".$class.'::class';
                 }
 
@@ -70,6 +74,7 @@ class AddRelationshipFields implements Task
         static $pluralRelations = [
             'belongstomany',
             'hasmany',
+            'morphmany'
         ];
 
         return in_array(strtolower($type), $pluralRelations)

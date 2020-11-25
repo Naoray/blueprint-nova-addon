@@ -5,5 +5,5 @@ models:
       belongsToMany: Team
       hasMany: Order
       hasOne: Duration, Transaction
-      morphOne: Commentable
-      morphMany: Payments
+      MorphTo: Comment
+      morphMany: Payment
