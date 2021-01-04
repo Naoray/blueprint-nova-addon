@@ -10,8 +10,6 @@ use Naoray\BlueprintNovaAddon\Contracts\Task;
 
 class AddIdentifierField implements Task
 {
-    use InteractWithRelationships;
-
     const INDENT = '            ';
 
     public function handle($data, Closure $next): array
@@ -27,12 +25,6 @@ class AddIdentifierField implements Task
 
     private function identifierColumn(Model $model): Column
     {
-        $name = $this->relationshipIdentifiers($model->columns())
-            ->values()
-            // filter out all relationships
-            ->diff(Arr::get($model->relationships(), 'belongsTo', []))
-            ->first();
-
-        return $model->columns()[$name];
+        return $model->columns()[$model->primaryKey()];
     }
 }
