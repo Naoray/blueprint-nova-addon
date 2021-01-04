@@ -5,7 +5,6 @@ namespace Naoray\BlueprintNovaAddon\Tasks;
 use Blueprint\Models\Column;
 use Blueprint\Models\Model;
 use Closure;
-use Illuminate\Support\Arr;
 use Naoray\BlueprintNovaAddon\Contracts\Task;
 
 class AddIdentifierField implements Task
