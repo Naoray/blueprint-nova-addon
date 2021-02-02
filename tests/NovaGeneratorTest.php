@@ -2,14 +2,14 @@
 
 namespace Naoray\BlueprintNovaAddon\Tests;
 
-use Blueprint\Blueprint;
 use Blueprint\Tree;
+use Blueprint\Blueprint;
 use Naoray\BlueprintNovaAddon\HasStubPath;
 use Naoray\BlueprintNovaAddon\NovaGenerator;
-use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
 use Naoray\BlueprintNovaAddon\Tasks\AddRegularFields;
-use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddIdentifierField;
 use Naoray\BlueprintNovaAddon\Tasks\AddTimestampFields;
+use Naoray\BlueprintNovaAddon\Tasks\AddRelationshipFields;
 
 class NovaGeneratorTest extends TestCase
 {
@@ -44,7 +44,7 @@ class NovaGeneratorTest extends TestCase
     public function output_generates_nothing_for_empty_tree()
     {
         $this->files->expects('get')
-            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->with($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub')
             ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->shouldNotHaveReceived('put');
@@ -59,7 +59,7 @@ class NovaGeneratorTest extends TestCase
     public function output_generates_nova_resources($definition, $path, $novaResource)
     {
         $this->files->expects('get')
-            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->with($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub')
             ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->expects('exists')
@@ -81,7 +81,7 @@ class NovaGeneratorTest extends TestCase
     public function output_generates_relationships()
     {
         $this->files->expects('get')
-            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->with($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub')
             ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->expects('exists')
@@ -106,7 +106,7 @@ class NovaGeneratorTest extends TestCase
         $this->app['config']->set('blueprint.models_namespace', 'Models');
 
         $this->files->expects('get')
-            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->with($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub')
             ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->expects('exists')
@@ -131,7 +131,7 @@ class NovaGeneratorTest extends TestCase
         $this->app['config']->set('nova_blueprint.timestamps', false);
 
         $this->files->expects('get')
-            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->with($this->stubPath() . DIRECTORY_SEPARATOR . 'class.stub')
             ->andReturn(file_get_contents('stubs/class.stub'));
 
         $this->files->expects('exists')
