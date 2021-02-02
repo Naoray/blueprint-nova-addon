@@ -148,6 +148,32 @@ class NovaGeneratorTest extends TestCase
         $this->assertEquals(['created' => ['app/Nova/Comment.php']], $this->subject->output($tree));
     }
 
+    /**
+     * @test
+     */
+    public function output_respects_namespace_configurations()
+    {
+        $this->app['config']->set('nova_blueprint.namespace', 'Admin');
+        $this->app['config']->set('nova_blueprint.resource_namespace', 'Resources');
+
+        $this->files->expects('get')
+            ->with($this->stubPath().DIRECTORY_SEPARATOR.'class.stub')
+            ->andReturn(file_get_contents('stubs/class.stub'));
+
+        $this->files->expects('exists')
+            ->with('app/Admin/Resources')
+            ->andReturnFalse();
+        $this->files->expects('makeDirectory')
+            ->with('app/Admin/Resources', 0755, true);
+        $this->files->expects('put')
+            ->with('app/Admin/Resources/Video.php', $this->fixture('nova/custom-namespace.php'));
+
+        $tokens = $this->blueprint->parse($this->fixture('definitions/custom-namespace.bp'));
+        $tree = $this->blueprint->analyze($tokens);
+
+        $this->assertEquals(['created' => ['app/Admin/Resources/Video.php']], $this->subject->output($tree));
+    }
+
     public function novaTreeDataProvider()
     {
         return [
