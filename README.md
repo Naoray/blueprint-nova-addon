@@ -85,7 +85,7 @@ public function fields(Request $request)
 You may publish the configuration with the following command:
 
 ```bash
-php artisan vendor:publish --tag=blueprint-nova-config
+php artisan vendor:publish --tag=nova_blueprint
 ```
 
 ### Timestamp fields
