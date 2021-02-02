@@ -1,8 +1,6 @@
-name: Run unit tests
+name: Run tests
 
-on:
-  - push
-  - pull_request
+on: [push, pull_request]
 
 jobs:
   test:
@@ -17,11 +15,8 @@ jobs:
         include:
             - laravel: '7.0'
               testbench: '5.0'
-
             -   laravel: 8.*
                 testbench: 6.*
-
-            # Report coverage on edge test
             - laravel: '8.0'
               php: '8.0'
               stability: highest
@@ -34,7 +29,6 @@ jobs:
         exclude:
           - laravel: '7.0'
             php: '8.0'
-
           - laravel: '8.0'
             php: '8.0'
             stability: lowest
