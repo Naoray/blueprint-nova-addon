@@ -1,0 +1,3 @@
+models:
+  Video:
+    title: string
