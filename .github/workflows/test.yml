@@ -1,0 +1,95 @@
+name: Run unit tests
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        laravel:
+          - '7.0'
+          - '8.0'
+
+        php:
+          - '7.4'
+          - '8.0'
+
+        stability:
+          - lowest
+          - highest
+
+        include:
+          - laravel: '7.0'
+            testbench: '5.0'
+
+          - laravel: '8.0'
+            testbench: '6.0'
+
+          # Report coverage on edge test
+          - laravel: '8.0'
+            php: '8.0'
+            stability: highest
+            coverage: true
+        exclude:
+          # Laravel 7.x doesn't work with PHP 8.0
+          - laravel: '7.0'
+            php: '8.0'
+
+          # Laravel 8.0 had the same problem at the start
+          - laravel: '8.0'
+            php: '8.0'
+            stability: lowest
+
+    name: Test Laravel ${{ matrix.laravel }} on PHP ${{ matrix.php }} (${{ matrix.stability }})
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: zip
+          coverage: pcov
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Configure Laravel and Laravel Testbench
+        run:
+          composer require
+            "laravel/framework:${{ matrix.laravel }}"
+            "orchestra/testbench:${{ matrix.testbench }}"
+            --no-interaction
+            --no-update
+
+      - name: Install Composer Dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          dependency-versions: ${{ matrix.stability }}
+          composer-options: "--ignore-platform-req=php"
+
+      - name: Execute tests
+        id: phpunit
+        run:
+          vendor/bin/phpunit --coverage-clover=coverage.clover
+
+      - name: Upload coverage to Ocular
+        continue-on-error: true
+        run: php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+
+      - name: Determine coverage
+        uses: slavcodev/coverage-monitor-action@1.1.0
+        if: github.event_name == 'pull_request' && matrix.coverage == true
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          clover_file: coverage.clover
+          threshold_alert: 75
+          threshold_warning: 95
