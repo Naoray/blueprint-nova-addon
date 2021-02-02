@@ -81,14 +81,17 @@ class NovaGenerator implements Generator
 
     protected function getNovaNamespace(Model $model): string
     {
-        $namespace = Str::after($model->fullyQualifiedNamespace(), config('blueprint.namespace'));
-        $namespace = config('blueprint.namespace').'\Nova'.$namespace;
+        $afterSelector = config('blueprint.models_namespace') ?: config('blueprint.namespace');
+        $namespace = Str::after($model->fullyQualifiedNamespace(), $afterSelector);
 
-        if (config('blueprint.models_namespace')) {
-            $namespace = str_replace('\\'.config('blueprint.models_namespace'), '', $namespace);
-        }
+        $namespace = implode('\\', array_filter([
+            config('blueprint.namespace'),
+            config('nova_blueprint.namespace', 'Nova'),
+            config('nova_blueprint.resource_namespace', null),
+            $namespace,
+        ]));
 
-        return $namespace;
+        return ltrim($namespace, '\\');
     }
 
     public function registerTask(Task $task): void
