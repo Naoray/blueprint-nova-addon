@@ -11,8 +11,12 @@ class RemapImports implements Task
     {
         $data['imports'] = collect($data['imports'])
             ->unique()
-            ->map(function ($type) {
-                return 'use Laravel\Nova\Fields\\'.$type.';';
+            ->map(function ($import) {
+                if (preg_match('/use ([A-Z][\w_]+\\\\)+[A-Z][\w_]+;$/', $import)) {
+                    return $import;
+                }
+
+                return 'use Laravel\Nova\Fields\\'.$import.';';
             })
             ->prepend('use Illuminate\Http\Request;')
             ->sort(function ($a, $b) {
