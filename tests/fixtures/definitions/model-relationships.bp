@@ -1,6 +1,7 @@
 models:
   Subscription:
     user_id: id
+    team_id: uuid
     relationships:
       belongsToMany: Team
       hasMany: Order
