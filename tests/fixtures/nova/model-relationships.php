@@ -49,6 +49,7 @@ class Subscription extends Resource
             ID::make()->sortable(),
 
             BelongsTo::make('User'),
+            BelongsTo::make('Team'),
 
             BelongsToMany::make('Teams'),
 
