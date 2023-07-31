@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "illuminate/pipeline": "^6.0 || ^7.0 || ^8.0",
-        "illuminate/support": "^6.0 || ^7.0 || ^8.0",
+        "illuminate/pipeline": ">=6.0",
+        "illuminate/support": ">=6.0",
         "laravel-shift/blueprint": "^1.18 || ^2.0"
     },
     "require-dev": {
